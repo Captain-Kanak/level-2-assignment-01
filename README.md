@@ -1,4 +1,4 @@
-## Interface আর Type এর মধ্যে পার্থক্য কী?
+### Interface আর Type এর মধ্যে পার্থক্য কী?
 
 TypeScript-এ interface আর type দুটিই object-এর structure ডিফাইন করতে ব্যবহৃত হয়। তবে কিছু গুরুত্বপূর্ণ পার্থক্য আছে:
 
