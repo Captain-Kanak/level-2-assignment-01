@@ -1,84 +1,89 @@
-# Interface আর Type এর মধ্যে পার্থক্য কী?
+## Interface আর Type এর মধ্যে পার্থক্য কী?
 
-TypeScript-এ interface আর type দুটিই object-এর structure ডিফাইন করতে ব্যবহৃত হয়। তবে কিছু গুরুত্বপূর্ণ পার্থক্য আছে:
+- TypeScript-এ interface আর type দুটিই object-এর structure ডিফাইন করতে ব্যবহৃত হয়। তবে কিছু গুরুত্বপূর্ণ পার্থক্য আছে:
 
-## Interface
-- শুধুমাত্র object-এর structure বর্ণনা করতে ব্যবহৃত হয়।
+### Interface
+
+- শুধুমাত্র object-এর structure তৈরি করতে ব্যবহৃত হয়।
 - একই নামের একাধিক interface ডিক্লেয়ার করলে TypeScript এগুলো merge করে।
 - Class এর সাথে implement করা যায়।
 
-## Type
-- Object ছাড়াও union, intersection, function, primitive টাইপ সবকিছু define করতে পারে।
-- একই নামে দুইটা type তৈরি করা যায় না (redeclaration error দেয়)।
-- Advanced টাইপ তৈরি করতে খুব শক্তিশালী।
+### Type
+
+- Object ছাড়াও union, intersection, function, primitive টাইপ সবকিছু define করা যায়।
+- একই নামে দুইটা type তৈরি করা যায় না।
+- Advanced টাইপ তৈরি করা যায়।
 
 ---
 
-# keyof কীওয়ার্ডের ব্যবহার কী?
+## keyof কীওয়ার্ডের ব্যবহার কী?
 
 keyof কোনো object type-এর key গুলোকে string literal union হিসেবে রিটার্ন করে।
 
 type User = {
-  name: string;
-  age: number;
-  email: string;
+name: string;
+age: number;
+email: string;
 };
 
 // keyof User >>> "name" | "age" | "email"
 
 ---
 
-# any, unknown, আর never এর পার্থক্য কী?
+## any, unknown, আর never এর পার্থক্য কী?
 
-## any
+### any
+
 - যেকোনো টাইপ হতে পারে।
 - TypeScript টাইপ চেক করা বন্ধ করে দেয়।
-- Unsafe টাইপ।
+- একপ্রকার normal JavaScript এর মতো কাজ করে।
 
 let a: any = 10;
 a = "text";
 a = true;
 
-## unknown
-- যেকোনো কিছু রাখা যায়, কিন্তু ব্যবহার করার আগে টাইপ চেক করতে হয়।
-- এটি নিরাপদ any এর বিকল্প।
+### unknown
+
+- যেকোনো কিছু রাখা যায়, কিন্তু ব্যবহার করার আগে type guard দিয়ে টাইপ চেক করতে হয়।
+- unknown কে any এর বিকল্প হিসেবে ব্যবহার করা উচিত।
 
 let x: unknown = "hello";
 
 // console.log(x.toUpperCase()); // error
 
 if (typeof x === "string") {
-  console.log(x.toUpperCase()); // allowed
+console.log(x.toUpperCase()); // allowed
 }
 
-## never
-- এমন পরিস্থিতির টাইপ যা কখনো ঘটে না।
+### never
+
+- never এমন টাইপ যা কখনো ঘটে না।
 - যে ফাংশন কখনো return করে না।
 
-function fail(message: string): never {
-  throw new Error(message);
+function fail(): never {
+throw new Error("Error");
 }
 
-# enum কেন ব্যবহার করা হয়?
+## enum কেন ব্যবহার করা হয়?
 
-TypeScript-এ enum (Enumeration) ব্যবহার করা হয় যখন একটি নির্দিষ্ট মানের সেট বারবার ব্যবহার করতে হয়।
-— যেমন user roles, order status, directions ইত্যাদি।
+TypeScript-এ enum ব্যবহার করা হয় যখন একটি নির্দিষ্ট মানের সেট বারবার ব্যবহার করতে হয়।
 
-## enum-এর সুবিধা:
+### enum-এর সুবিধা:
+
 - কোড আরও readable এবং structured হয়।
 - Hard-coded string ব্যবহার করার দরকার নেই।
 - ভুল string বা number ব্যবহারের সম্ভাবনা কমে।
 - একই জায়গায় সব মান ডিফাইন করা থাকে, maintain করা সহজ।
-- IDE auto-completion সাপোর্ট দেয়।
-- বড় প্রোজেক্টে readability এবং maintainability অনেক বাড়ে।
+- enum ব্যবহার করলে, টাইপ এবং মান দুটোই ব্যবহার করা যায়।
+- TypeScript-এ Enum একটি শক্তিশালী ফিচার হলেও, JavaScript-একে সরাসরি সমর্থন করে না।
 
-Numeric Enum (ডিফল্ট)
-Numeric enum-এ মান স্বয়ংক্রিয়ভাবে 0 থেকে শুরু হয়।
+Numeric Enum (default)
+Numeric enum-এ মান 0 থেকে শুরু হয়।
 
 enum Status {
-  Pending,
-  Approved,
-  Rejected
+Pending,
+Approved,
+Rejected
 }
 
 // console.log(Status.Pending); // 0
@@ -88,32 +93,35 @@ String Enum
 String enum-এ প্রতিটি মান অবশ্যই string হতে হবে।
 
 enum Roles {
-  Admin = "ADMIN",
-  User = "USER",
-  Guest = "GUEST"
+Admin = "ADMIN",
+User = "USER",
+Guest = "GUEST"
 }
 
 // console.log(Roles.Admin); // "ADMIN"
 
-# Union এবং Intersection টাইপের উদাহরণ
-## Union Type (this OR that)
+## Union এবং Intersection টাইপের উদাহরণ
+
+### Union Type (this OR that)
+
 let id: string | number;
 
 id = "A123";
 id = 100;
 
-## Intersection Type (this AND that)
+### Intersection Type (this AND that)
+
 type Person = {
-  name: string;
+name: string;
 };
 
 type Employee = {
-  salary: number;
+salary: number;
 };
 
 type Staff = Person & Employee;
 
 const staff1: Staff = {
-  name: "Rahim",
-  salary: 50000,
+name: "Rahim",
+salary: 50000,
 };
